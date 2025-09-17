@@ -6,7 +6,7 @@ A powerful and feature-rich Pomodoro Timer extension to boost your productivity 
 
 ### Step 1: Download the Extension Files
 
-1. **Click the green "Code" button** (usually in the top-right of the file list)
+1. **Click the green "Code" button** (usually in the top-right of the file list) Or **[Click Here](https://github.com/jayshankarshahu/focus-timer-extension?tab=readme-ov-file#-installation-guide)**
 2. **Select "Download ZIP"** from the dropdown menu
 3. **Save the ZIP file** to your computer (remember where you save it!)
 4. **Extract the ZIP file**:
