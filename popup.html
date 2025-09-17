@@ -3,14 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pomodoro Timer</title>
+  <title>Focus Timer</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
   <div class="container">
-    <button id="resetBtn" class="reset-btn" title="Reset Timer">⟲</button>
+    <div class="header-buttons">
+      <button id="settingsBtn" class="header-btn" title="Settings">⚙️</button>
+      <button id="resetBtn" class="header-btn" title="Reset Timer">⟲</button>
+    </div>
     
-    <h1>Pomodoro Timer</h1>
+    <h1>Focus Timer Pro</h1>
     
     <div class="input-group">
       <label for="focusTime">Focus Time (minutes)</label>
@@ -38,6 +41,17 @@
     </div>
 
     <div class="status" id="status">Ready to focus</div>
+    
+    <div class="stats-preview">
+      <div class="stat-item">
+        <span class="stat-label">Today's Focus</span>
+        <span class="stat-value" id="todayFocus">0m</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Sessions</span>
+        <span class="stat-value" id="todaySessions">0</span>
+      </div>
+    </div>
   </div>
 
   <!-- Confirmation Dialog -->

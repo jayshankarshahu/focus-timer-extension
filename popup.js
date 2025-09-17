@@ -5,15 +5,19 @@ class PomodoroUI {
     this.startBtn = document.getElementById('startBtn');
     this.startBreakBtn = document.getElementById('startBreakBtn');
     this.resetBtn = document.getElementById('resetBtn');
+    this.settingsBtn = document.getElementById('settingsBtn');
     this.timerDisplay = document.getElementById('timerDisplay');
     this.status = document.getElementById('status');
     this.confirmDialog = document.getElementById('confirmDialog');
     this.confirmResetBtn = document.getElementById('confirmReset');
     this.cancelResetBtn = document.getElementById('cancelReset');
+    this.todayFocus = document.getElementById('todayFocus');
+    this.todaySessions = document.getElementById('todaySessions');
     
     this.initializeEventListeners();
     this.loadSettings();
     this.updateUI();
+    this.updateStats();
   }
 
   initializeEventListeners() {
@@ -33,6 +37,9 @@ class PomodoroUI {
     this.confirmResetBtn.addEventListener('click', this.handleReset.bind(this));
     this.cancelResetBtn.addEventListener('click', this.hideResetDialog.bind(this));
     
+    // Settings button
+    this.settingsBtn.addEventListener('click', this.openSettings.bind(this));
+    
     // Close dialog when clicking overlay
     this.confirmDialog.addEventListener('click', (e) => {
       if (e.target === this.confirmDialog) {
@@ -46,8 +53,42 @@ class PomodoroUI {
         this.updateTimerDisplay(message.timeLeft, message.phase);
       } else if (message.type === 'TIMER_RESET') {
         this.handleResetComplete();
+      } else if (message.type === 'STATS_UPDATE') {
+        this.updateStats();
       }
     });
+  }
+
+  openSettings() {
+    chrome.tabs.create({ url: chrome.runtime.getURL('settings.html') });
+  }
+
+  async updateStats() {
+    const today = new Date().toDateString();
+    const result = await chrome.storage.local.get(['pomodoroLogs']);
+    const logs = result.pomodoroLogs || [];
+    
+    const todayLogs = logs.filter(log => new Date(log.timestamp).toDateString() === today);
+    
+    let totalFocusMinutes = 0;
+    let sessionCount = 0;
+    
+    todayLogs.forEach(log => {
+      if (log.event === 'focus_end') {
+        const startLog = todayLogs.find(l => 
+          l.event === 'focus_start' && 
+          l.sessionId === log.sessionId
+        );
+        if (startLog) {
+          const duration = (new Date(log.timestamp) - new Date(startLog.timestamp)) / (1000 * 60);
+          totalFocusMinutes += Math.round(duration);
+          sessionCount++;
+        }
+      }
+    });
+    
+    this.todayFocus.textContent = `${Math.floor(totalFocusMinutes / 60)}h ${totalFocusMinutes % 60}m`;
+    this.todaySessions.textContent = sessionCount;
   }
 
   handleNumberInput(e) {
@@ -103,11 +144,9 @@ class PomodoroUI {
     });
     
     this.hideResetDialog();
-    // Don't call updateUI here - wait for the reset confirmation message
   }
 
   handleResetComplete() {
-    // Reset UI to initial state
     this.timerDisplay.textContent = '00:00';
     this.status.textContent = 'Ready to focus';
     this.status.className = 'status';
@@ -122,7 +161,6 @@ class PomodoroUI {
     const seconds = timeLeft % 60;
     this.timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     
-    // Reset all button states first
     this.startBtn.style.display = 'block';
     this.startBreakBtn.style.display = 'none';
     
@@ -139,8 +177,8 @@ class PomodoroUI {
     } else if (phase === 'focus_ended') {
       this.status.textContent = 'Focus time has ended. It\'s time to take a break.';
       this.status.className = 'status';
-      this.startBtn.style.display = 'none'; // Hide start button
-      this.startBreakBtn.style.display = 'block'; // Only show start break
+      this.startBtn.style.display = 'none';
+      this.startBreakBtn.style.display = 'block';
     } else if (phase === 'break_ended') {
       this.status.textContent = 'Break is over. Ready for another focus session?';
       this.status.className = 'status';
@@ -157,7 +195,6 @@ class PomodoroUI {
   }
 
   async updateUI() {
-    // Get current state from background
     chrome.runtime.sendMessage({ type: 'GET_STATE' }, (response) => {
       if (response) {
         const { isRunning, phase, timeLeft } = response;
@@ -186,7 +223,6 @@ class PomodoroUI {
   }
 }
 
-// Initialize the UI when the popup loads
 document.addEventListener('DOMContentLoaded', () => {
   new PomodoroUI();
 });

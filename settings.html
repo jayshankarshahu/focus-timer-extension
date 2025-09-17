@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Focus Timer - Settings</title>
+  <link rel="stylesheet" href="settings.css">
+  <script src="chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Focus Timer Settings</h1>
+      <button id="closeSettings" class="close-btn">✕</button>
+    </header>
+
+    <div class="content">
+      <div class="section">
+        <h2>🔊 Sound Settings</h2>
+        
+        <div class="sound-controls">
+          <div class="master-toggle">
+            <label class="toggle-switch">
+              <input type="checkbox" id="masterSoundToggle">
+              <span class="slider"></span>
+              <span class="toggle-label">Enable All Sounds</span>
+            </label>
+          </div>
+
+          <div class="sound-item">
+            <h3>Focus Start Sound</h3>
+            <div class="sound-row">
+              <label for="focusStartSound" id="focusStartLabel" class="file-label">
+                Click to choose a new Audio
+              </label>
+              <input type="file" id="focusStartSound" accept=".mp3" class="file-input">
+              <label class="toggle-switch">
+                <input type="checkbox" id="focusStartToggle">
+                <span class="slider"></span>
+              </label>
+              <button class="test-sound-btn" data-sound="focusStart">Play</button>
+            </div>
+          </div>
+
+          <div class="sound-item">
+            <h3>Focus End Sound</h3>
+            <div class="sound-row">
+              <label for="focusEndSound" id="focusEndLabel" class="file-label">
+                Click to choose a new Audio
+              </label>
+              <input type="file" id="focusEndSound" accept=".mp3" class="file-input">
+              <label class="toggle-switch">
+                <input type="checkbox" id="focusEndToggle">
+                <span class="slider"></span>
+              </label>
+              <button class="test-sound-btn" data-sound="focusEnd">Play</button>
+            </div>
+          </div>
+
+          <div class="sound-item">
+            <h3>Break Start Sound</h3>
+            <div class="sound-row">
+              <label for="breakStartSound" id="breakStartLabel" class="file-label">
+                Click to choose a new Audio
+              </label>
+              <input type="file" id="breakStartSound" accept=".mp3" class="file-input">
+              <label class="toggle-switch">
+                <input type="checkbox" id="breakStartToggle">
+                <span class="slider"></span>
+              </label>
+              <button class="test-sound-btn" data-sound="breakStart">Play</button>
+            </div>
+          </div>
+
+          <div class="sound-item">
+            <h3>Break End Sound</h3>
+            <div class="sound-row">
+              <label for="breakEndSound" id="breakEndLabel" class="file-label">
+                Click to choose a new Audio
+              </label>
+              <input type="file" id="breakEndSound" accept=".mp3" class="file-input">
+              <label class="toggle-switch">
+                <input type="checkbox" id="breakEndToggle">
+                <span class="slider"></span>
+              </label>
+              <button class="test-sound-btn" data-sound="breakEnd">Play</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>📊 Analytics Dashboard</h2>
+        
+        <div class="analytics-controls">
+          <button id="prevWeek" class="nav-btn">← Previous Week</button>
+          <span id="currentWeek" class="week-display">Current Week</span>
+          <button id="nextWeek" class="nav-btn">Next Week →</button>
+        </div>
+        
+        <div class="chart-container">
+          <canvas id="analyticsChart"></canvas>
+        </div>
+        
+        <div class="analytics-stats">
+          <div class="stat-card">
+            <h4>Total Focus Time</h4>
+            <span id="totalFocusTime">0h 0m</span>
+          </div>
+          <div class="stat-card">
+            <h4>Total Sessions</h4>
+            <span id="totalSessions">0</span>
+          </div>
+          <div class="stat-card">
+            <h4>Average Session</h4>
+            <span id="avgSession">0m</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="settings.js"></script>
+</body>
+</html>
