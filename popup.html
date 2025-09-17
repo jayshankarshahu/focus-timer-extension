@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pomodoro Timer</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <button id="resetBtn" class="reset-btn" title="Reset Timer">⟲</button>
+    
+    <h1>Pomodoro Timer</h1>
+    
+    <div class="input-group">
+      <label for="focusTime">Focus Time (minutes)</label>
+      <div class="number-input">
+        <button type="button" class="minus-btn" data-target="focusTime">−</button>
+        <input type="number" id="focusTime" value="25" min="1" max="120" readonly>
+        <button type="button" class="plus-btn" data-target="focusTime">+</button>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="breakTime">Break Time (minutes)</label>
+      <div class="number-input">
+        <button type="button" class="minus-btn" data-target="breakTime">−</button>
+        <input type="number" id="breakTime" value="5" min="1" max="60" readonly>
+        <button type="button" class="plus-btn" data-target="breakTime">+</button>
+      </div>
+    </div>
+
+    <div class="timer-display" id="timerDisplay">00:00</div>
+    
+    <div class="button-group">
+      <button id="startBtn" class="primary-btn">Start</button>
+      <button id="startBreakBtn" class="secondary-btn" style="display: none;">Start Break</button>
+    </div>
+
+    <div class="status" id="status">Ready to focus</div>
+  </div>
+
+  <!-- Confirmation Dialog -->
+  <div id="confirmDialog" class="dialog-overlay" style="display: none;">
+    <div class="dialog">
+      <h3>Reset Timer?</h3>
+      <p>Are you sure you want to reset the current timer? This will stop any running session.</p>
+      <div class="dialog-buttons">
+        <button id="confirmReset" class="confirm-btn">Yes, Reset</button>
+        <button id="cancelReset" class="cancel-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
